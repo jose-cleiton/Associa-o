@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-module.export = {
+const attributes = {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -31,4 +31,6 @@ module.export = {
         type: DataTypes.DATE,
         field: 'updated_at',
       },
- };
+};
+ 
+module.exports = attributes;

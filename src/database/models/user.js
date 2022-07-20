@@ -1,26 +1,46 @@
-const {
-  Model,
-} = require('sequelize');
+const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    name: DataTypes.STRING,
-    phone: DataTypes.STRING,
-  }, {
-    sequelize,
-    modelName: 'User',
+const attributes = {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      email: {
+        type: DataTypes.STRING,
+      },
+      password: {
+        type: DataTypes.STRING,
+        field: 'password_hash',
+      },
+      name: {
+        type: DataTypes.STRING,
+      },
+      phone: {
+        type: DataTypes.INTEGER,
+
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        field: 'created_at',
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        field: 'updated_at',
+      },
+ };
+/**
+ * 
+ * @param {import('sequelize').Sequelize} sequelize
+ 
+ */
+
+module.exports = (sequelize) => { 
+  const model = sequelize.define('users', attributes, {
+    tableName: 'users',
   });
-  return User;
+  return model;
 };

@@ -18,7 +18,7 @@ const attributes = {
         type: DataTypes.STRING,
       },
       phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
 
       },
       createdAt: {

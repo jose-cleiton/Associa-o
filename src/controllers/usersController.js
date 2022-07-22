@@ -1,13 +1,12 @@
-const express = require('express');
+const useresService = require('../service/usersService');
 
-require('express-async-errors');
+const usersController = {
+  /** @type {import('express').RequestHandler} */
+   async list(_req, res) { 
+    const useres = await useresService.list();
+    res.json(useres);
+  },
 
-const app = express();
+};
 
-app.use(express.json());
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+module.export = usersController;

@@ -1,6 +1,6 @@
 // const { DataTypes } = require('sequelize');
 
-const attributes = require('../atributes');
+const attributesUser = require('../attributesUser');
 
 module.exports = {
 /**
@@ -10,9 +10,9 @@ module.exports = {
  */
 
   async up(queryInterface) {
-    await queryInterface.createTable('users', attributes);
+    await queryInterface.createTable('users', attributesUser);
   },
   async down(queryInterface) {
-    await queryInterface.dropTable('users', attributes);
+    await queryInterface.dropTable('users', attributesUser);
   },
 };

@@ -1,24 +1,29 @@
 const { DataTypes } = require('sequelize');
-
-const attributes = {
+/**
+ * 
+ * @param {import('sequelize').QueryInterface} queryInterface
+ * @param {import('sequelize').Sequelize} Sequelize
+ */
+const attributesPet = {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      email: {
-        type: DataTypes.STRING,
-      },
-      password: {
-        type: DataTypes.STRING,
-        field: 'password_hash',
-      },
       name: {
         type: DataTypes.STRING,
       },
-      phone: {
-        type: DataTypes.STRING,
+      userId: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+        field: 'user_id',
+        // apartir daqui fazemos referencia ao id do users
+        references: {
+          model: 'users',
+          key: 'id',
+
+        },
 
       },
       createdAt: {
@@ -31,6 +36,6 @@ const attributes = {
         type: DataTypes.DATE,
         field: 'updated_at',
       },
-};
+    };
  
-module.exports = attributes;
+module.exports = attributesPet;

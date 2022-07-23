@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
 const models = require('../database/models');
 
 const usersService = {
@@ -14,7 +15,12 @@ const usersService = {
   },
 
   async add(data) {
-    const model = await models.users.create(data);
+    const modelWithHashedPassword = {
+      ...data,
+      passwordHash: await bcrypt.hash(data.passwordHash, 10),
+    };
+    
+    const model = await models.users.create(modelWithHashedPassword);
     const newUser = model.toJSON();
     const { passwordHash, ...user } = newUser;
     return user;

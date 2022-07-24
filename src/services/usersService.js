@@ -39,6 +39,19 @@ const usersService = {
     });
     return users;
   },
+  async get(id) {
+    const userModel = await models.users.findByPk(id, {
+      attributes: { exclude: ['passwordHash'] },
+    });
+   
+    const user = userModel.toJSON();
+    const petsList = await models.pets.findAll({
+      where: { userId: id },
+
+    });
+    user.pets = petsList.map((pet) => pet.toJSON());
+    return user;
+  },
 
   async getLazy(id) {
     const userModel = await models.users.findByPk(id, {
@@ -53,18 +66,6 @@ const usersService = {
     return user;
   },
 
-  async getEager(id) {
-    const userModel = await models.users.findByPk(id, {
-      attributes: { exclude: ['passwordHash'] },
-      include: {
-        model: models.pets,
-        as: 'pets',
-        attributes: { exclude: ['userId'] },
-      },
-    });
-    const user = userModel.toJSON();
-    return user;
-  },
 };
 
 module.exports = usersService;

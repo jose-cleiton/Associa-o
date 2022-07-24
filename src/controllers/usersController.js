@@ -1,4 +1,3 @@
-
 const Joi = require('joi');
 const usersService = require('../services/usersService');
 
@@ -29,6 +28,13 @@ const usersController = {
     const user = await usersService.add(data);
     res.status(201).json(user);
   },
+ /** @type {import('express').RequestHandler} */
+  async get(req, res) {
+    const { id } = await usersService.validateParamsId(req.params);
+    const user = await usersService.get(id);
+    res.json(user);
+  },
+
 };
 
 module.exports = usersController;

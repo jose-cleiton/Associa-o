@@ -1,8 +1,8 @@
-const attributesUser = require('../attributesUser');
+const attributesPets = require('../attributesPets');
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const pets = sequelize.define('pets', attributesUser, {
+  const pets = sequelize.define('pets', attributesPets, {
     tableName: 'pets',
   });
   pets.associate = (models) => {

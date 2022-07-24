@@ -1,4 +1,4 @@
-const { log } = require('console');
+
 const Joi = require('joi');
 const usersService = require('../services/usersService');
 
@@ -25,7 +25,7 @@ const usersController = {
   /** @type {import('express').RequestHandler} */
   async add(req, res) {
     const data = await usersService.validateBodyAdd(req.body);
-    console.log(' DEntro Controllers user:');
+    
     const user = await usersService.add(data);
     res.status(201).json(user);
   },

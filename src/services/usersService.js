@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const models = require('../database/models');
 
 const usersService = {
@@ -15,18 +14,14 @@ const usersService = {
   },
 
   async add(data) {
-    const modelWithHashedPassword = {
-      ...data,
-      passwordHash: await bcrypt.hash(data.passwordHash, 10),
-    };
-    
-    const model = await models.users.create(modelWithHashedPassword);
-    const newUser = model.toJSON();
+    const newUser = await models.users.create(data);
+    console.log(` DEntro Service user: ${JSON.stringify(newUser)}`);
+     const newUserjson = models.toJSON();
     const { passwordHash, ...user } = newUser;
     return user;
   },
 
-  async list() {
+   async list() {
     const users = await models.users.findAll({
       attributes: { exclude: ['passwordHash'] },
     });

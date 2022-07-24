@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
+
 /**
  * 
  * @param {import('sequelize').QueryInterface} queryInterface
  * @param {import('sequelize').Sequelize} Sequelize
  */
-const attributesPets = {
-      id: {
+const attributesVets = {
+  id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,15 +14,6 @@ const attributesPets = {
       },
       name: {
         type: DataTypes.STRING,
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        field: 'user_id',
-        references: {
-          model: 'users',
-          key: 'id',
-        },
       },
       createdAt: {
         allowNull: false,
@@ -33,6 +25,6 @@ const attributesPets = {
         type: DataTypes.DATE,
         field: 'updated_at',
       },
-    };
+};
  
-module.exports = attributesPets;
+module.exports = attributesVets;

@@ -1,9 +1,10 @@
-'use strict';
+const attributesPets = require('../attributesPets');
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pets', );
+  async up(queryInterface) {
+    await queryInterface.createTable('pets', attributesPets);
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Pets');
-  }
+  async down(queryInterface) {
+    await queryInterface.dropTable('pets', attributesPets);
+  },
 };

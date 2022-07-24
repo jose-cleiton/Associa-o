@@ -25,11 +25,11 @@ const usersService = {
   async add(data) {
     const modelWithHashedPassword = {
       ...data,
-      passwordHash: bcrypt.hash(data.passwordHash, 10),
+      passwordHash: await bcrypt.hash(data.passwordHash, 10),
     };
     const model = await models.users.create(modelWithHashedPassword);
     const newUser = model.toJSON();
-    const { passwordHash, ...user } = newUser;
+    const { passwordHash, ...user } = newUser; 
     return user;
   },
 
@@ -39,7 +39,7 @@ const usersService = {
     });
     return users;
   },
-  async get(id) {
+  async getLazy(id) {
     const userModel = await models.users.findByPk(id, {
       attributes: { exclude: ['passwordHash'] },
     });
@@ -47,24 +47,26 @@ const usersService = {
     const user = userModel.toJSON();
     const petsList = await models.pets.findAll({
       where: { userId: id },
+      attributes: { exclude: ['userId'] },
 
     });
     user.pets = petsList.map((pet) => pet.toJSON());
     return user;
   },
-
-  async getLazy(id) {
+    async getEager(id) {
     const userModel = await models.users.findByPk(id, {
       attributes: { exclude: ['passwordHash'] },
+      include: {
+        model: models.pets,
+        as: 'pets',
+        attributes: { exclude: ['userId'] },
+      },
     });
     const user = userModel.toJSON();
-    const petsList = await models.pets.findAll({
-      where: { userId: user.id },
-      attributes: { exclude: ['userId'] },
-    });
-    user.pets = petsList.map((pet) => pet.toJSON());
     return user;
   },
+
+
 
 };
 

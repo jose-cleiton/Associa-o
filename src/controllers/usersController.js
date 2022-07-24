@@ -15,9 +15,8 @@ const usersController = {
   },
 
   async list(_req, res) {
-    console.log('Desntro de usersController.list');
     const users = await usersService.list();
-    console.log(` DEntro Controllers users: ${JSON.stringify(users)}`);
+   
     res.json(users);
   },
 
@@ -31,7 +30,7 @@ const usersController = {
  /** @type {import('express').RequestHandler} */
   async get(req, res) {
     const { id } = await usersService.validateParamsId(req.params);
-    const user = await usersService.get(id);
+    const user = await usersService.getLazy(id);
     res.json(user);
   },
 

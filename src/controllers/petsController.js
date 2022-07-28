@@ -14,6 +14,11 @@ const petsController = {
     const pet = await petsService.getLazy(id);
     res.json(pet);
   },
+
+  async list(_, res) {
+    const pets = await petsService.list();
+    res.json(pets);
+  },
 };
 
 module.exports = petsController;

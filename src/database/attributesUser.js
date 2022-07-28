@@ -16,7 +16,7 @@ const attributesUser = {
     type: DataTypes.STRING,
   },
     passwordHash: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     field: 'password_hash',
   },
   name: {

@@ -40,7 +40,6 @@ const attributes = [
 ]
       
 const cryptoPassword = async (user) => {
-
   user.password_hash = await bcrypt.hash(user.password_hash, 10);
   return user;
 };

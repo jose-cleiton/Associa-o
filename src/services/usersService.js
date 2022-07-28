@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const models = require('../database/models');
+const { throwNotFoundError, throwUnauthorizedError } = require('./utils');
 
 const usersService = {
   async validateBodyAdd(unknown) {
@@ -25,11 +26,11 @@ const usersService = {
   async add(data) {
     const modelWithHashedPassword = {
       ...data,
-      passwordHash: await bcrypt.hash(data.passwordHash, 10),
+      passwordHash: bcrypt.hash(data.passwordHash, 10),
     };
     const model = await models.users.create(modelWithHashedPassword);
     const newUser = model.toJSON();
-    const { passwordHash, ...user } = newUser; 
+    const { passwordHash, ...user } = newUser;
     return user;
   },
 
@@ -39,21 +40,22 @@ const usersService = {
     });
     return users;
   },
+
   async getLazy(id) {
-    const userModel = await models.users.findByPk(id, {
+    const userModel = await models.users.findOne({
+      where: { id },
       attributes: { exclude: ['passwordHash'] },
     });
-   
     const user = userModel.toJSON();
     const petsList = await models.pets.findAll({
-      where: { userId: id },
+      where: { userId: user.id },
       attributes: { exclude: ['userId'] },
-
     });
     user.pets = petsList.map((pet) => pet.toJSON());
     return user;
   },
-    async getEager(id) {
+
+  async getEager(id) {
     const userModel = await models.users.findByPk(id, {
       attributes: { exclude: ['passwordHash'] },
       include: {
@@ -66,8 +68,22 @@ const usersService = {
     return user;
   },
 
+  async getByEmailOrThrows(email) {
+    const user = await models.users.findOne({
+      where: { email },
+      raw: true,
+    });
+    if (!user) throwNotFoundError('"user" not found');
+    return user;
+  },
 
-
+  async verifyUserPassword(password, passwordHash) {
+    try {
+      await bcrypt.compare(password, passwordHash);
+    } catch (error) {
+      throwUnauthorizedError('"password" is invalid');
+    }
+  },
 };
 
 module.exports = usersService;

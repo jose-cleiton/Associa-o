@@ -24,6 +24,11 @@ const petsService = {
     return model;
   },
 
+  async list() {
+    const pets = await models.pets.findAll({ raw: true });
+    return pets;
+  },
+
   async getLazy(id) {
     const pet = await models.pets.findByPk(id, { raw: true });
     pet.user = await models.users.findOne({
@@ -32,6 +37,14 @@ const petsService = {
       raw: true,
     });
     return pet;
+  },
+
+  async getByUserId(userId) {
+    const pets = await models.pets.findAll({
+      where: { userId },
+      raw: true,
+    });
+    return pets;
   },
 };
 

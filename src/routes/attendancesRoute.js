@@ -1,9 +1,10 @@
 const { Router } = require('express');
-const usersController = require('../controllers/usersController');
+const attendancesController = require('../controllers/attendancesController');
 
-const usersRoute = Router();
+const attendancesRoute = Router();
 
-usersRoute.get('/', usersController.list);
-usersRoute.post('/', usersController.add);
+// attendancesRoute.get('/:id', petsController.get);
+// petsRoute.get('/', petsController.list);
+attendancesRoute.post('/', attendancesController.add);
 
-module.exports = usersRoute;
+module.exports = attendancesRoute;
